@@ -1,14 +1,16 @@
 var mongodb = require('../conf/db');
 
 function User(user) {
-	this.user = user.user;
+    console.log(user);
+	this.userName = user.userName;
 	this.password = user.password;
 };
 
 User.prototype.save = function(callback) {
 	var user = {
-		user: this.user,
-		password: this.password
+		userName: this.userName,
+		password: this.password,
+        createDate: new Date().toLocaleString()
 	};
 	//打开数据库
     mongodb.open(function(err, db) {
@@ -36,7 +38,7 @@ User.prototype.save = function(callback) {
     });
 };
 
-User.get = function(userName, callback) {
+User.prototype.get = function(userName, callback) {
     mongodb.open(function(err, db) {
         if (err) {
             return callback(err);
