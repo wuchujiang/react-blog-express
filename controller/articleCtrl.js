@@ -1,0 +1,63 @@
+var trimHtml = require('trim-html');
+var model = require('../model/model');
+var Model = model('article');
+var article_control = {
+	all: function(req, res, next) {
+		Model.getOwn(function(err, result) {
+			if(err) {
+				return res.json({
+					code: -1,
+					message: '未知错误'
+				});
+			}
+			return res.json({
+				code: 0,
+				message: '查询成功',
+				data: result
+			});
+
+		});
+	},
+
+	one: function(req, res, next) {
+
+	},
+
+	writer: function(req, res, next) {
+		var abstract = trimHtml(req.body.content, { limit: 10, preserveTags: true });
+		var writerInfo = {
+			title: req.body.title,
+			keyword: req.body.keyword,
+			content: req.body.content,
+			abstract: abstract,
+			createDate: new Date().toLocaleString(),
+	        articleId: new Date().getTime().toString().slice(2,9),
+	        authorId: req.userInfo.userId,
+	        anthor:  req.userInfo.userName,
+	        pv: 0
+		};
+		Model.save(writerInfo, function(err, result) {
+			if(err) {
+				return res.json({
+					code: -1,
+					message: '未知错误'
+				});
+			}
+			return res.json({
+				code: 0,
+				message: '提交成功'
+			});
+		});
+		
+	},
+
+	edit: function(req, res, next) {
+
+	},
+
+	delete: function(req, res, next) {
+
+	}
+}
+
+module.exports = article_control;
