@@ -10,11 +10,10 @@ router.post('/', function(req, res, next) {
 	article_control.all(req, res, next);
 });
 
-// // 获取一篇文章
-// router.post('/:id', function(req, res, next) {
-// 	article_control.one(req, res, next);
-// });
-// 	console.log(23);
+// 获取一篇文章
+router.post('/blog/:id', function(req, res, next) {
+	article_control.one(req, res, next);
+});
 
 
 router.post('/writer', auth, function(req, res, next) {

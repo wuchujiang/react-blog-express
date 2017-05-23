@@ -20,11 +20,24 @@ var article_control = {
 	},
 
 	one: function(req, res, next) {
-
+		console.log(req.params.id);
+		Model.getOne({ articleId: req.params.id}, function (err, result) {
+			if(err) {
+				return res.json({
+					code: -1,
+					message: '未知错误'
+				});
+			}
+			return res.json({
+				code: 0,
+				message: '查询成功',
+				data: result
+			});
+		})
 	},
 
 	writer: function(req, res, next) {
-		var abstract = trimHtml(req.body.content, { limit: 10, preserveTags: true });
+		var abstract = trimHtml(req.body.content, { limit: 100, preserveTags: false });
 		var writerInfo = {
 			title: req.body.title,
 			keyword: req.body.keyword,
@@ -45,7 +58,8 @@ var article_control = {
 			}
 			return res.json({
 				code: 0,
-				message: '提交成功'
+				message: '提交成功',
+				articleId: result.articleId
 			});
 		});
 		

@@ -75,7 +75,28 @@ var model = function(table) {
 		            });
 		        });
 		    })
-		}
+		},
+
+		getOne: function(data, callback) {
+		    mongodb.open(function(err, db) {
+		        if (err) {
+		            return callback(err);
+		        }
+		        db.collection(table, function(err, collection) {
+		            if (err) {
+		                mongodb.close();
+		                return callback(err);
+		            }
+		            collection.findOne(data, function(err, docs) {
+		                mongodb.close();
+		                if (err) {
+		                    return callback(err);
+		                }
+		                callback(null, docs);
+		            });
+		        });
+		    })
+		},
 	}
 }
 

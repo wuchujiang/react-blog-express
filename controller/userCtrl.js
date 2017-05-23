@@ -88,7 +88,7 @@ var user_control = {
 	        }*/
 	        //生成token
 	        var token = jwt.sign({userId: result.userId}, jwtTokenServet, {
-	        	expiresIn: 1000  //超时时间-秒
+	        	expiresIn: 60 * 60 * 12  //超时时间-秒
 	        });
 
 	        res.json({
