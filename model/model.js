@@ -44,7 +44,7 @@ var model = function(table) {
 
 		            collection.findOne(data, function(err, user) {
 		                mongodb.close();
-		                if (err) {
+		                if (err || user === null) {
 		                    return callback(err);
 		                }
 

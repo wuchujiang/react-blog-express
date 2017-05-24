@@ -46,9 +46,19 @@ var user_control = {
 						message: '未知错误'
 					});
 				}
+
+		        var jwtTokenServet = '1stryavsdb2pcjo26c';
+		        
+		        //生成token
+		        var token = jwt.sign({userId: result.userId}, jwtTokenServet, {
+		        	expiresIn: 60 * 60 * 12  //超时时间-秒
+		        });
+
 				return res.json({
 					code: 0,
-					message: '注册成功'
+					message: '注册成功',
+					token: token,
+					userName: result.userName
 				});
 			});
 		})
@@ -94,7 +104,8 @@ var user_control = {
 	        res.json({
 	        	code: 0,
 	        	message: '登录成功',
-	        	token: token
+	        	token: token,
+				userName: result.userName
 	        });
 		});
 	}

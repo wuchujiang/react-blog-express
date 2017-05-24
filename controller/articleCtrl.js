@@ -37,16 +37,18 @@ var article_control = {
 	},
 
 	writer: function(req, res, next) {
-		var abstract = trimHtml(req.body.content, { limit: 100, preserveTags: false });
+		var abstract = trimHtml(req.body.content, { preserveTags: false });
 		var writerInfo = {
 			title: req.body.title,
 			keyword: req.body.keyword,
 			content: req.body.content,
+			recommend: req.body.recommend,
 			abstract: abstract,
 			createDate: new Date().toLocaleString(),
 	        articleId: new Date().getTime().toString().slice(2,9),
 	        authorId: req.userInfo.userId,
 	        anthor:  req.userInfo.userName,
+	        words: (trimHtml(req.body.content).html).length,
 	        pv: 0
 		};
 		Model.save(writerInfo, function(err, result) {

@@ -7,19 +7,22 @@ module.exports = function(req, res, next) {
 	if(token) {
 		jwt.verify(token, jwtTokenServet, function(err, decoded) {
 			if(err) {
-				return res.json({
+				return res.status(403).json({
 					code: -1,
 					message: 'token信息错误'
 				});
 			}else{
 				// 解析token获得的userid查询用户信息；
 				Model.get({ userId: decoded.userId }, function(err, result) {
-					if(err) {
-						return res.json({
+					if(err || result == undefined) {
+						console.log(err, result, 1)
+						return res.status(403).json({
 							code: -1,
 							message: '没查到用户信息'
 						});
 					}
+					
+					console.log(err, result)
 					req.userInfo = result;
 					next();
 				});
@@ -28,7 +31,7 @@ module.exports = function(req, res, next) {
 		});
 	} else {
 		return res.status(403).send({
-			success: false,
+			code: -1,
 			message: '没有token！'
 		});
 	};
