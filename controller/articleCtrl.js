@@ -37,7 +37,10 @@ var article_control = {
 	},
 
 	writer: function(req, res, next) {
-		var abstract = trimHtml(req.body.content, { preserveTags: false });
+		var content = req.body.content;
+		var reg = /[\\\`\*\_\[\]\#\+\-\!\>]/g;
+
+		var abstract = content.replace(reg, '').slice(0, 100);
 		var writerInfo = {
 			title: req.body.title,
 			keyword: req.body.keyword,
